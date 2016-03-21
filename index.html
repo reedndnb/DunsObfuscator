@@ -1,0 +1,52 @@
+<html>
+  <style>
+    input {margin-bottom:5px;}</style>
+  <title>Duns Obfuscator/De-obfuscator</title>
+
+  <script type="text/javascript">
+    var obfuscation_table = {from : '123456789', to : '742639518'};
+    var deobfuscation_table = {from : '742639518', to : '123456789'};
+
+    function bin2String(bytes) {
+        return String.fromCharCode.apply(String, bytes);
+    }
+
+    function deobfuscate_duns() {
+        var duns = document.forms[0].elements['input'].value;
+        var table = deobfuscation_table;
+        return translate_input(duns, table);
+    }
+
+    function obfuscate_duns() {
+        var duns = document.forms[0].elements['input'].value;
+        var table = obfuscation_table;
+        return translate_input(duns, table);
+    }
+
+    function translate_input(duns, table) {
+        // duns = "123456789";
+
+        var bytes = [];
+        for (var i = 0; i < duns.length; ++i) {
+          // Get the position of character in obfuscation table
+        table_index = table['from'].indexOf(duns.charAt(i));
+        var out_char_code = table['to'][table_index].charCodeAt(0);
+        bytes.push(out_char_code);
+      }
+
+      alert("Result: " + bin2String(bytes));
+      return bin2String(bytes);
+    }
+
+  </script>
+  <body>
+    <h1>Duns Obfuscator/De-Obfuscator</h1>
+    <p>Please input the duns # below:</p>
+    <form action="#">
+      <label>Input:</label><input name="input" type="text"><br/>
+      <input name="obfuscate" value="Obfuscate" type="button" onclick="obfuscate_duns();"/><br/>
+      <input name="deobfuscate" value="De-obfuscate" type="button" onclick="deobfuscate_duns();"/>
+    </form>
+  </body>
+
+</html>
